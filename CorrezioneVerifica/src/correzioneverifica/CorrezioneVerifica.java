@@ -27,6 +27,13 @@ public class CorrezioneVerifica {
         openStreet a = new openStreet();
         a.getPlaces(citta);
         System.out.println(a.getPlaces(citta));
+        
+        JSonParser jp = new JSonParser();
+        jp.register("ciao200", "ciao200");
+        jp.setString(jp.getToken("ciao200", "ciao200"));
+        jp.getString(jp.getToken("ciao200", "ciao200"));
+        
+                
     }
     
 }
