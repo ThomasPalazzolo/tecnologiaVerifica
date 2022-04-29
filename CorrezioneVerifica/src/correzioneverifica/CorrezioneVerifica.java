@@ -29,10 +29,14 @@ public class CorrezioneVerifica {
         System.out.println(a.getPlaces(citta));
         
         JSonParser jp = new JSonParser();
-        jp.register("ciao200", "ciao200");
-        jp.setString(jp.getToken("ciao200", "ciao200"));
-        jp.getString(jp.getToken("ciao200", "ciao200"));
-        
+        String nome = "sium45";
+        String key = "ciao";
+        jp.register(nome, "ciao200");
+        String token= jp.getToken(nome, "ciao200");
+        jp.setString(token , key);
+        jp.getString(token , key);
+        jp.deleteString(token, key);
+        jp.getKeys(token);
                 
     }
     

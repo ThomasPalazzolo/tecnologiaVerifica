@@ -26,7 +26,7 @@ public class JSonParser {
     }
 
     public String getToken(String username, String password) throws MalformedURLException, IOException {
-        URL fileUrl = new URL("http://172.16.102.100/SaveStrings/getToken.php?username=" + URLEncoder.encode(username, StandardCharsets.UTF_8) + "&password=" + URLEncoder.encode(password, StandardCharsets.UTF_8));
+        URL fileUrl = new URL("https://savestrings.netsons.org//SaveStrings/getToken.php?username=" + URLEncoder.encode(username, StandardCharsets.UTF_8) + "&password=" + URLEncoder.encode(password, StandardCharsets.UTF_8));
         Scanner inRemote = new Scanner(fileUrl.openStream());
         inRemote.useDelimiter("\u001a");
         String content = inRemote.next();
@@ -40,7 +40,7 @@ public class JSonParser {
     }
 
     public void register(String username, String password) throws MalformedURLException, IOException {
-        URL fileUrl = new URL("http://172.16.102.100/SaveStrings/register.php?username=" + URLEncoder.encode(username, StandardCharsets.UTF_8) + "&password=" + URLEncoder.encode(password, StandardCharsets.UTF_8));
+        URL fileUrl = new URL("https://savestrings.netsons.org//SaveStrings/register.php?username=" + URLEncoder.encode(username, StandardCharsets.UTF_8) + "&password=" + URLEncoder.encode(password, StandardCharsets.UTF_8));
         Scanner inRemote = new Scanner(fileUrl.openStream());
         inRemote.useDelimiter("\u001a");
         String content = inRemote.next();
@@ -53,13 +53,12 @@ public class JSonParser {
             System.out.println("Token:" + getToken(username, password));
         } else if ("error".equals(temp)) {
             System.out.println("Utente gia registrato");
-            
+
         }
     }
 
-    public void setString(String token) throws MalformedURLException, IOException {
-
-        URL fileUrl = new URL("http://172.16.102.100/SaveStrings/setString.php?token=" + token + "&key=IDENTIFICATIVO&string=HELLO_WORLD");
+    public void setString(String token , String key) throws MalformedURLException, IOException {
+        URL fileUrl = new URL("https://savestrings.netsons.org//SaveStrings/setString.php?token=" + token + "&key="+key+"&string=HELLO_WORLD");
         Scanner inRemote = new Scanner(fileUrl.openStream());
         inRemote.useDelimiter("\u001a");
         String content = inRemote.next();
@@ -67,9 +66,9 @@ public class JSonParser {
         JSONObject obj = new JSONObject(jsonString);
     }
 
-    public String getString(String token) throws MalformedURLException, IOException {
+    public String getString(String token, String key) throws MalformedURLException, IOException {
 
-        URL fileUrl = new URL("http://172.16.102.100/SaveStrings/getString.php?token=" + token + "&key=IDENTIFICATIVO&string=HELLO_WORLD");
+        URL fileUrl = new URL("https://savestrings.netsons.org//SaveStrings/getString.php?token=" + token + "&key=" + key);
         Scanner inRemote = new Scanner(fileUrl.openStream());
         inRemote.useDelimiter("\u001a");
         String content = inRemote.next();
@@ -78,8 +77,30 @@ public class JSonParser {
         JSONObject result = obj.getJSONObject("result");
         System.out.println(result.getString("string"));
         return result.getString("string");
-        
-        
+    }
+
+    public void deleteString(String token , String key) throws MalformedURLException, IOException {
+        URL fileUrl = new URL("https://savestrings.netsons.org//SaveStrings/deleteString.php?token=" + token + "&key=" + key);
+        Scanner inRemote = new Scanner(fileUrl.openStream());
+        inRemote.useDelimiter("\u001a");
+        String content = inRemote.next();
+        String jsonString = content;
+        JSONObject obj = new JSONObject(jsonString);
+        System.out.println("stringa eliminata");
+    }
+
+    public String getKeys(String token) throws MalformedURLException, IOException {
+        URL fileUrl = new URL("https://savestrings.netsons.org//SaveStrings/getKeys.php?token=" + token);
+        Scanner inRemote = new Scanner(fileUrl.openStream());
+        String content = inRemote.next();
+        String jsonString = content;
+        JSONObject obj = new JSONObject(jsonString);
+        JSONArray result = obj.getJSONArray("result");
+        for (int i = 0; i < result.length(); i++) {
+            System.out.println(result.get(i));
+
+        }
+        return null;
     }
 
 }
